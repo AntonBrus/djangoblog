@@ -1,0 +1,19 @@
+{% extends 'main_layout.html' %}
+
+{% block title %}Записи блога{% endblock %}
+
+{% block content %}
+<h1>Записи блога</h1>
+<div class="articles">
+    {% for article in articles %}
+        <div class="article">
+            <h3>
+                <a href="{% url 'posts:detail' slug=article.slug %}">{{article.title}}</a>
+            </h3>
+            <p>{{article.part_text}}</p>
+            <p>{{article.date}}</p>
+            <p class="author">Пост добавлен: {{article.author.username}}</p>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

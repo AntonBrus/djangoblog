@@ -1,0 +1,40 @@
+{% load static from staticfiles %}
+{% load bootstrap4 %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
+    <link rel="shortcut icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
+    {% bootstrap_css %}
+    {% bootstrap_javascript jquery='full' %}
+</head>
+<body>
+<header class="wrapper">
+    <h1><a href="/"><img src="{% static 'logo.jpg' %}" alt="logo"></a></h1>
+    <nav>
+        <ul>
+            <li><a href="{% url 'home' %}">Главная</a></li>
+            {% if user.is_authenticated %}
+            <li>
+                <form action="{% url 'accounts:logout' %}" class="logout-link logout" method="post">
+                    {% csrf_token %}
+                    <button type="submit">Выход</button>
+                </form>
+            </li>
+            {% else %}
+            <li><a href="{% url 'accounts:login' %}">Авторизоваться</a></li>
+            <li><a href="{% url 'accounts:signup' %}">Зарегистрироваться</a></li>
+            <li><a href="{% url 'accounts:password_reset' %}">Сменить пароль</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+</header>
+<div class="wrapper">
+    {% block content %}
+    {% endblock %}
+</div>
+</body>
+</html>

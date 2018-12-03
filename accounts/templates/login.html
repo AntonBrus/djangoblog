@@ -1,0 +1,18 @@
+{% extends 'main_layout.html' %}
+{% load bootstrap4 %}
+
+{% block title %}Авторизация на сайте{% endblock %}
+
+{% block content %}
+<h1>Форма авторизации</h1>
+<form class="form" action="{% url 'accounts:login' %}" method="post">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    {% if request.GET.next %}}
+    <input type="hidden" name="next" value="{{request.GET.next}}">
+    {% endif %}
+    {% buttons %}
+    <button type="submit" class="btn btn-primary">Войти</button>
+    {% endbuttons %}
+</form>
+{% endblock %}

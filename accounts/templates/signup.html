@@ -1,0 +1,15 @@
+{% extends 'main_layout.html' %}
+{% load bootstrap4 %}
+
+{% block title %}Форма регистрации на сайте{% endblock %}
+
+{% block content %}
+<h1>Регистрация</h1>
+<form class="site-form" action="{% url 'accounts:signup' %}" method="post">
+    {% csrf_token %}
+   {% bootstrap_form form %}
+    {% buttons %}
+    <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+    {% endbuttons %}
+</form>
+{% endblock %}

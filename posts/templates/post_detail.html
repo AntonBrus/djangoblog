@@ -1,0 +1,40 @@
+{% extends 'main_layout.html' %}
+
+{% block title %}{{article.title}} | Записи блога{% endblock %}
+
+{% block content %}
+<div class="article-detail">
+    <div class="article">
+        <img src="{{article.img_url|default:'/media/default.png'}}" alt="Изображение" />
+        <h1>{{article.title}}</h1>
+        <p>{{article.body}}</p>
+        <p>{{article.date}}</p>
+        {% if article.tags.count > 0 %}
+        <p>Теги: {{article.tags.all|join:", "}}</p>
+        {% else %}
+        <p>Теги отсутствуют</p>
+        {% endif %}
+    </div>
+</div>
+<div class="comments">
+    {% if user.is_authenticated %}
+    <div class="comments-form">
+        <form class="site-form" action="{% url 'posts:detail' slug=article.slug %}" method="post">
+            {% csrf_token %}
+            {{form}}
+            <input type="submit" value="Добавить комментарий">
+        </form>
+    </div>
+    {% else %}
+    <div class="no-auth">Для добавления нового комментария вам необходимо <a href="{% url 'accounts:login' %}">авторизоваться на сайте</a></div>
+    {% endif %}
+
+    {% for comment in comments %}
+    <div class="comment">
+        <div class="comment-body">{{comment.body}}</div>
+        <div class="comment-date">{{comment.date}}</div>
+        <div class="comment-author">Комментарий добавил: {{comment.author.username}}</div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
